@@ -1,14 +1,15 @@
 <launch>
+  <machine name="jetson-nano" address="192.168.1.5" user="dlinano" password="" env-loader="/opt/ros/melodic/env.sh"/>
+
+  <arg name="width" default="640" />
+  <arg name="height" default="480" />
+  <arg name="format" default="mjpeg" />
   <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
     <param name="video_device" value="/dev/video0" />
-    <param name="image_width" value="640" />
-    <param name="image_height" value="480" />
-    <param name="pixel_format" value="yuyv" />
+    <param name="image_width" value="$(arg width)" />
+    <param name="image_height" value="$(arg height)" />
+    <param name="pixel_format" value="$(arg format)" />
     <param name="camera_frame_id" value="usb_cam" />
     <param name="io_method" value="mmap"/>
-  </node>
-  <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
-    <remap from="image" to="/usb_cam/image_raw"/>
-    <param name="autosize" value="true" />
   </node>
 </launch>
